@@ -1,89 +1,127 @@
--- you must install packer first otherwise there will be errors
-return require("packer").startup(
-    function(use)
-        use("wbthomason/packer.nvim")
+-- Set <space> as the leader key
+-- See `:help mapleader`
+--  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
 
-        -- TJ created lodash of neovim
-        use("nvim-lua/plenary.nvim")
-        use("nvim-lua/popup.nvim")
-        use("nvim-telescope/telescope.nvim")
+-- [[ Install `lazy.nvim` plugin manager ]]
+--    https://github.com/folke/lazy.nvim
+--    `:help lazy.nvim.txt` for more info
+local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system {
+    'git',
+    'clone',
+    '--filter=blob:none',
+    'https://github.com/folke/lazy.nvim.git',
+    '--branch=stable', -- latest stable release
+    lazypath,
+  }
+end
+vim.opt.rtp:prepend(lazypath)
 
-        -- Nerdtree
-        use("preservim/nerdtree")
+-- [[ Configure plugins ]]
+-- NOTE: Here is where you install your plugins.
+--  You can configure plugins using the `config` key.
+--
+--  You can also configure plugins after the setup call,
+--    as they will be available in your neovim runtime.
+require("lazy").setup({
+    -- NOTE: First, some plugins that don't require any configuration
 
-        -- Treesitter
-        use("nvim-treesitter/nvim-treesitter", {run = ":TSUpdate"})
-        --use("nvim-treesitter/playground")
-        --use("romgrk/nvim-treesitter-context")
+    -- Git related plugins
+    'tpope/vim-fugitive',
+    'tpope/vim-rhubarb',
 
-        -- Colorschemes
-        use("gruvbox-community/gruvbox")
-        use("folke/tokyonight.nvim")
-        --use({"catppuccin/nvim", as = "catppuccin"})
-        --use({"rose-pine/neovim", as = "rose-pine"})
-        use("tomasiser/vim-code-dark")
+    -- Detect tabstop and shiftwidth automatically
+    'tpope/vim-sleuth',
 
-        -- cmp plugins
-        use("hrsh7th/nvim-cmp")
-        use("hrsh7th/cmp-buffer")
-        use("hrsh7th/cmp-path")
-        --use("hrsh7th/cmp-cmdline")
-        use("hrsh7th/cmp-nvim-lsp")
+    -- NOTE: This is where your plugins related to LSP can be installed.
+    --  The configuration is done below. Search for lspconfig to find it below.
+    {
+        -- LSP Configuration & Plugins
+        'neovim/nvim-lspconfig',
+        dependencies = {
+            -- Automatically install LSPs to stdpath for neovim
+            'williamboman/mason.nvim',
+            'williamboman/mason-lspconfig.nvim',
 
-        -- LSP
-        use("neovim/nvim-lspconfig")
-        use("williamboman/mason.nvim")
-        use("williamboman/mason-lspconfig.nvim")
+            -- Useful status updates for LSP
+            -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
+            { 'j-hui/fidget.nvim', opts = {} },
 
-        use {"akinsho/toggleterm.nvim", tag = '*', config = function()
-          require("toggleterm").setup()
-        end}
+            -- Additional lua configuration, makes nvim stuff amazing!
+            'folke/neodev.nvim',
+        },
+    },
 
-        -- Fugitive - git plugin
-        --use("tpope/vim-fugitive")
-    
-        -- Neovim statusline written in Lua
-        --use({
-        --    'nvim-lualine/lualine.nvim',
-        --    requires = { 'kyazdani42/nvim-web-devicons', opt = true }
-        --})
-    
-        -- trying copilot for 1 week
-        --use("github/copilot.vim")
-        --use("github/copilot.vim")
-        --use("zbirenbaum/copilot.lua");
-        --use({
-        --    "zbirenbaum/copilot-cmp",
-        --    after = {"copilot.lua"},
-        --    config = function ()
-        --        require("copilot_cmp").setup()
-        --    end
-        --});
-    
-        -- All the things
-        --use("neovim/nvim-lspconfig")
-        --use("hrsh7th/cmp-nvim-lsp")
-        --use("hrsh7th/cmp-buffer")
-        --use("hrsh7th/nvim-cmp")
-        --use{"tzachar/cmp-tabnine", run = "./install.sh", requires = 'hrsh7th/nvim-cmp'}
-        --use("onsails/lspkind-nvim")
-        --use("nvim-lua/lsp_extensions.nvim")
-        --use("glepnir/lspsaga.nvim")
-        --use("simrat39/symbols-outline.nvim")
-        --use("L3MON4D3/LuaSnip")
-        --use("saadparwaiz1/cmp_luasnip")
+    {
+        -- Autocompletion
+        'hrsh7th/nvim-cmp',
+        dependencies = {
+            -- Snippet Engine & its associated nvim-cmp source
+            'L3MON4D3/LuaSnip',
+            'saadparwaiz1/cmp_luasnip',
 
-        -- Primeagen doesn't create lodash
-        --use("ThePrimeagen/git-worktree.nvim")
-        --use("ThePrimeagen/harpoon")
-        --use("ThePrimeagen/refactoring.nvim")
+            -- Adds LSP completion capabilities
+            'hrsh7th/cmp-nvim-lsp',
 
-        --use("mbbill/undotree")
+            -- Adds a number of user-friendly snippets
+            'rafamadriz/friendly-snippets',
+        },
+    },
 
-        --use("mfussenegger/nvim-dap")
-        --use("rcarriga/nvim-dap-ui")
-        --use("theHamsta/nvim-dap-virtual-text")
+    -- Fuzzy Finder (files, lsp, etc)
+    {
+        'nvim-telescope/telescope.nvim',
+        branch = '0.1.x',
+        dependencies = {
+            'nvim-lua/plenary.nvim',
+            -- Fuzzy Finder Algorithm which requires local dependencies to be built.
+            -- Only load if `make` is available. Make sure you have the system
+            -- requirements installed.
+            {
+            'nvim-telescope/telescope-fzf-native.nvim',
+            -- NOTE: If you are having trouble with this installation,
+            --       refer to the README for telescope-fzf-native for more instructions.
+            build = 'make',
+            cond = function()
+                return vim.fn.executable 'make' == 1
+            end,
+            },
+        },
+    },
 
-        --use("ranjithshegde/ccls.nvim")
-    end
-)
+    {
+        -- Highlight, edit, and navigate code
+        'nvim-treesitter/nvim-treesitter',
+        dependencies = {
+          'nvim-treesitter/nvim-treesitter-textobjects',
+        },
+        build = ':TSUpdate',
+    },
+
+    -- Nerdtree
+    'preservim/nerdtree',
+
+    -- Colorschemes
+    {
+        'tomasiser/vim-code-dark',
+        config = function()
+          vim.cmd.colorscheme 'codedark'
+        end,
+    },
+    -- {
+    --     -- Theme inspired by Atom
+    --     'navarasu/onedark.nvim',
+    --     priority = 1000,
+    --     config = function()
+    --         vim.cmd.colorscheme 'onedark'
+    --     end,
+    -- },
+    --use("gruvbox-community/gruvbox")
+    --use("folke/tokyonight.nvim")
+
+    { 'akinsho/toggleterm.nvim', version = '*', config = true }
+
+}, {})

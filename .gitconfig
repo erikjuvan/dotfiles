@@ -2,8 +2,18 @@
     defaultBranch = main
 
 [user]
-    email = erik.juvan@hotmail.com
     name = erik.juvan
+    email = erik.juvan@hotmail.com
 
 [alias]
+    st = status -sb
+    co = checkout
+    c = commit --short
+    ci = commit --short
+    p = push
+    l = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --decorate --date=short
     lg = log --oneline --graph --all
+    lref = log --reflog --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --decorate --date=short
+
+[color]
+    ui = true
