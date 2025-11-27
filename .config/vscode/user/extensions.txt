@@ -1,0 +1,8 @@
+ms-vscode.cpptools-extension-pack
+tldraw-org.tldraw-vscode
+fabiospampinato.vscode-highlight
+ms-vscode.hexeditor
+csholmq.excel-to-markdown-table
+caponetto.vscode-diff-viewer
+alefragnani.Bookmarks
+Atishay-Jain.All-Autocomplete

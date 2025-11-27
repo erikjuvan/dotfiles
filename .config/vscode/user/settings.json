@@ -1,0 +1,204 @@
+{
+    "editor.fontSize": 16,
+    "editor.fontFamily": "Cascadia Code, Fira Code, Consolas, 'Courier New', monospace",
+    "editor.fontLigatures": true,
+    "editor.renderWhitespace": "all",
+    "editor.cursorSurroundingLines": 10,
+    "editor.minimap.size": "fill",
+    "editor.minimap.enabled": false,
+    "editor.rulers": [
+        120
+    ],
+
+    ///////////////////////////////////////////////////////////////////////
+    // Highlight extension
+    ///////////////////////////////////////////////////////////////////////
+    "highlight.regexFlags": "g",
+    "highlight.maxMatches": 1000,
+    "highlight.regexes": {
+        "((?:<!-- *)?(?:#|// @|//|./\\*+|<!--|--|\\* @|{!|{{!--|{{!) *TODO(?:\\s*\\([^)]+\\))?:?)((?!\\w)(?: *-->| *\\*/| *!}| *--}}| *}}|(?= *(?:[^:]//|/\\*+|<!--|@|--|{!|{{!--|{{!))|(?: +[^\\n@]*?)(?= *(?:[^:]//|/\\*+|<!--|@|--(?!>)|{!|{{!--|{{!))|(?: +[^@\\n]+)?))": {
+            "filterFileRegex": ".*(?<!CHANGELOG.md)$",
+            "decorations": [
+                {
+                    "overviewRulerColor": "#ffcc00",
+                    "backgroundColor": "#ffcc00",
+                    "color": "#1f1f1f",
+                    "fontWeight": "bold"
+                },
+                {
+                    "backgroundColor": "#ffcc00",
+                    "color": "#1f1f1f"
+                }
+            ]
+        },
+        "((?:<!-- *)?(?:#|// @|//|./\\*+|<!--|--|\\* @|{!|{{!--|{{!) *(?:FIXME|FIX|BUG|UGLY|DEBUG|HACK)(?:\\s*\\([^)]+\\))?:?)((?!\\w)(?: *-->| *\\*/| *!}| *--}}| *}}|(?= *(?:[^:]//|/\\*+|<!--|@|--|{!|{{!--|{{!))|(?: +[^\\n@]*?)(?= *(?:[^:]//|/\\*+|<!--|@|--(?!>)|{!|{{!--|{{!))|(?: +[^@\\n]+)?))": {
+            "filterFileRegex": ".*(?<!CHANGELOG.md)$",
+            "decorations": [
+                {
+                    "overviewRulerColor": "#cc0000",
+                    "backgroundColor": "#cc0000",
+                    "color": "#1f1f1f",
+                    "fontWeight": "bold"
+                },
+                {
+                    "backgroundColor": "#cc0000",
+                    "color": "#1f1f1f"
+                }
+            ]
+        },
+        "((?:<!-- *)?(?:#|// @|//|./\\*+|<!--|--|\\* @|{!|{{!--|{{!) *(?:REVIEW|OPTIMIZE|TSC)(?:\\s*\\([^)]+\\))?:?)((?!\\w)(?: *-->| *\\*/| *!}| *--}}| *}}|(?= *(?:[^:]//|/\\*+|<!--|@|--|{!|{{!--|{{!))|(?: +[^\\n@]*?)(?= *(?:[^:]//|/\\*+|<!--|@|--(?!>)|{!|{{!--|{{!))|(?: +[^@\\n]+)?))": {
+            "filterFileRegex": ".*(?<!CHANGELOG.md)$",
+            "decorations": [
+                {
+                    "overviewRulerColor": "#00ccff",
+                    "backgroundColor": "#00ccff",
+                    "color": "#1f1f1f",
+                    "fontWeight": "bold"
+                },
+                {
+                    "backgroundColor": "#00ccff",
+                    "color": "#1f1f1f"
+                }
+            ]
+        },
+        "((?:<!-- *)?(?:#|// @|//|./\\*+|<!--|--|\\* @|{!|{{!--|{{!) *(?:IDEA)(?:\\s*\\([^)]+\\))?:?)((?!\\w)(?: *-->| *\\*/| *!}| *--}}| *}}|(?= *(?:[^:]//|/\\*+|<!--|@|--|{!|{{!--|{{!))|(?: +[^\\n@]*?)(?= *(?:[^:]//|/\\*+|<!--|@|--(?!>)|{!|{{!--|{{!))|(?: +[^@\\n]+)?))": {
+            "filterFileRegex": ".*(?<!CHANGELOG.md)$",
+            "decorations": [
+                {
+                    "overviewRulerColor": "#cc00cc",
+                    "backgroundColor": "#cc00cc",
+                    "color": "#1f1f1f",
+                    "fontWeight": "bold"
+                },
+                {
+                    "backgroundColor": "#cc00cc",
+                    "color": "#1f1f1f"
+                }
+            ]
+        },
+
+        ///////////////////////////////////////////////////////////////////////
+        // My additional rules:
+        ///////////////////////////////////////////////////////////////////////
+
+        /////////////
+        // GENERAL //
+        /////////////
+
+        // In a comment the word that comes after @
+        "(//.*)(@\\w+)": {
+            "decorations": [
+                {},
+                {
+                    "color": "#4de0ff"
+                }
+            ]
+        },
+
+        ///////////////
+        // PLAINTEXT //
+        ///////////////
+
+        "(-+>)": {
+            "filterLanguageRegex": "plaintext",
+            "decorations" : [
+                {
+                    "color": "#FFFF00"
+                }
+            ]
+        },
+
+        "((?<=\\s)//.*)": {
+            "filterLanguageRegex": "plaintext",
+            "decorations" : [
+                {
+                    "color": "#229944"
+                }
+            ]
+        },
+
+        "(=+)": {
+            "filterLanguageRegex": "plaintext",
+            "decorations" : [
+                {
+                    "color": "#FF7711"
+                }
+            ]
+        },
+
+        // Highlight markdown style header line
+        "(#+)(.*)": {
+            "filterLanguageRegex": "plaintext",
+            "decorations" : [
+                {
+                    "color": "#0000ff",
+                },
+                {
+                    "color": "#4664df"
+                }
+            ]
+        },
+
+        "(TODO)": {
+            "filterLanguageRegex": "plaintext",
+            "decorations" : [
+                {
+                    "color": "#d1e406"
+                }
+            ]
+        },
+
+        // Highlight parentheses and enclosing text
+        "(\\([^)]*\\))": {
+            "filterLanguageRegex": "plaintext",
+            "decorations" : [
+                {
+                    "color": "#cebf74",
+                    "fontWeight": "bold"
+                }
+            ]
+        },
+
+        // Highlight strings
+        "(['\"].*['\"])": {
+            "filterLanguageRegex": "plaintext",
+            "decorations" : [
+                {
+                    "color": "#c48255",
+                    "fontWeight": "bold"
+                }
+            ]
+        },
+
+        // NOTE line
+        "(NOTE.*)": {
+            "filterLanguageRegex": "plaintext",
+            "decorations" : [
+                {
+                    "color": "#0ca4a4",
+                    "fontWeight": "500"
+                }
+            ]
+        },
+
+        // Numbers
+        "(\\b\\d+\\b)": {
+            "filterLanguageRegex": "plaintext",
+            "decorations" : [
+                {
+                    "color": "#cf5cc6",
+                }
+            ]
+        },
+
+        // // All uppercase words with numbers and the last letter can be small s, so e.g. COMMANDs will also work
+        // "(\\b[A-Z0-9_]+s?\\b)": {
+        //     "filterLanguageRegex": "plaintext",
+        //     "decorations" : [
+        //         {
+        //             "color": "#c8ffc2a4",
+        //         }
+        //     ]
+        // },
+    }
+}
